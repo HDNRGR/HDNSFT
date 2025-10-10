@@ -118,12 +118,18 @@
   <!-- Contact Section -->
   <section id="contact" class="contact">
     <h2>CONTACT</h2>
-    <form action="mailto:youremail@example.com" method="POST" enctype="text/plain">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
+  <form action="https://formsubmit.co/YOUR_FORM_ID" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+
+    <!-- Hidden fields for extra functionality -->
+    <input type="hidden" name="_subject" value="New Contact Form Submission">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://hdnrgr.github.io/SI/">
+
+    <button type="submit">Send Message</button>
+  </form>
     <div class="socials">
   <a href="https://www.instagram.com/hidden.rager"><i class="fab fa-instagram"></i></a>
   <a href="https://www.tiktok.com/@hidden.rager"><i class="fab fa-tiktok"></i></a>
@@ -140,4 +146,5 @@
   <script src="script.js"></script>
 
 </body>
+
 </html>
