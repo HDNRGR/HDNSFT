@@ -72,11 +72,60 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(overlay);
   }
 
-  // ----- Mobile click toggle for About / Experience boxes -----
-  const clickableBoxes = document.querySelectorAll(".about-box, .experience-box");
-  clickableBoxes.forEach(box => {
-    box.addEventListener("click", () => {
-      box.classList.toggle("unblur");
+  // ----- Parent image → sub-images mapping -----
+  const subImages = {
+    "photo1.png": ["photo1-1.png","photo1-2.png","photo1-3.png","photo1-4.png","photo1-5.png","photo1-6.png","photo1-7.png","photo1-8.png","photo1-9.png"],
+    "photo2.png": ["photo2-1.png","photo2-2.png","photo2-3.png","photo2-4.png"],
+    "photo3.png": ["photo3-1.png","photo3-2.png","photo3-3.png","photo3-4.png","photo3-5.png","photo3-6.png"],
+    "photo4.png": ["photo4-1.png","photo4-2.png","photo4-3.png"],
+    "photo5.png": [],
+    "photo6.png": [],
+    "photo7.png": [],
+    "photo8.png": []
+  };
+
+  // ----- Click on main + extra gallery images -----
+  const allGalleryImages = document.querySelectorAll(".main-gallery img, .extra-gallery img");
+
+  allGalleryImages.forEach(parentImg => {
+    parentImg.addEventListener("click", () => {
+      const src = "" + parentImg.src.split("/").pop();
+      const imagesToShow = subImages[src];
+      if (!imagesToShow) return;
+
+      // Remove any existing overlay
+      const existingOverlay = document.querySelector(".sub-images-overlay");
+      if (existingOverlay) existingOverlay.remove();
+
+      // Create overlay
+      const overlay = document.createElement("div");
+      overlay.classList.add("sub-images-overlay");
+      overlay.style.cssText = `
+        position: fixed; top:0; left:0; width:100%; height:100%;
+        background: rgba(0,0,0,0.85); display:grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap:15px; padding:40px; overflow-y:auto; z-index:3000;
+        align-content:start; cursor:default; backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+      `;
+
+      // Add sub-images
+      imagesToShow.forEach(subSrc => {
+        const img = document.createElement("img");
+        img.src = subSrc;
+        img.style.cssText = `
+          width:100%; border-radius:10px; cursor:pointer;
+          transition: transform 0.3s ease;
+        `;
+        img.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openFullscreen(subSrc);
+        });
+        overlay.appendChild(img);
+      });
+
+      overlay.addEventListener("click", () => overlay.remove());
+      document.body.appendChild(overlay);
     });
   });
 
