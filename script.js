@@ -88,16 +88,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const allGalleryImages = document.querySelectorAll(".main-gallery img, .extra-gallery img");
 
   allGalleryImages.forEach(parentImg => {
-    parentImg.addEventListener("click", () => {
-      const src = "" + parentImg.src.split("/").pop();
-      const imagesToShow = subImages[src];
-      if (!imagesToShow) return;
+    let unblurred = false;
 
-      // Remove any existing overlay
+    parentImg.addEventListener("click", (e) => {
+      const src = parentImg.src.split("/").pop();
+      const imagesToShow = subImages[src];
+
+      // ----- If no sub-images, toggle unblur on click -----
+      if (!imagesToShow || imagesToShow.length === 0) {
+        parentImg.classList.toggle("unblur");
+        return;
+      }
+
+      // ----- If sub-images exist, open overlay -----
       const existingOverlay = document.querySelector(".sub-images-overlay");
       if (existingOverlay) existingOverlay.remove();
 
-      // Create overlay
       const overlay = document.createElement("div");
       overlay.classList.add("sub-images-overlay");
       overlay.style.cssText = `
@@ -109,7 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
         -webkit-backdrop-filter: blur(15px);
       `;
 
-      // Add sub-images
       imagesToShow.forEach(subSrc => {
         const img = document.createElement("img");
         img.src = subSrc;
@@ -117,7 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
           width:100%; border-radius:10px; cursor:pointer;
           transition: transform 0.3s ease;
         `;
-        img.addEventListener("click", (e) => { e.stopPropagation(); openFullscreen(subSrc); });
+        img.addEventListener("click", (e) => { 
+          e.stopPropagation(); 
+          openFullscreen(subSrc); 
+        });
         overlay.appendChild(img);
       });
 
@@ -127,4 +135,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
-
