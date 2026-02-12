@@ -47,7 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----- Scroll to top when clicking logo -----
   const logo = document.querySelector(".navbar .logo");
   if (logo) {
-    logo.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    logo.addEventListener("click", () =>
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    );
   }
 
   // ----- Fullscreen image function -----
@@ -59,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       align-items:center; justify-content:center; cursor:zoom-out;
       z-index:5000; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
     `;
+
     const fullImg = document.createElement("img");
     fullImg.src = imgSrc;
     fullImg.style.cssText = `
@@ -66,7 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
       border-radius:10px; box-shadow:0 0 30px rgba(0,0,0,0.5);
       transition: transform 0.3s ease; transform: scale(0.8);
     `;
+
     setTimeout(() => fullImg.style.transform = "scale(1)", 10);
+
     overlay.appendChild(fullImg);
     overlay.addEventListener("click", () => overlay.remove());
     document.body.appendChild(overlay);
@@ -89,15 +94,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   allGalleryImages.forEach(parentImg => {
     parentImg.addEventListener("click", () => {
-      const src = "" + parentImg.src.split("/").pop();
+      const src = parentImg.src.split("/").pop();
       const imagesToShow = subImages[src];
       if (!imagesToShow) return;
 
-      // Remove any existing overlay
       const existingOverlay = document.querySelector(".sub-images-overlay");
       if (existingOverlay) existingOverlay.remove();
 
-      // Create overlay
       const overlay = document.createElement("div");
       overlay.classList.add("sub-images-overlay");
       overlay.style.cssText = `
@@ -109,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
         -webkit-backdrop-filter: blur(15px);
       `;
 
-      // Add sub-images
       imagesToShow.forEach(subSrc => {
         const img = document.createElement("img");
         img.src = subSrc;
@@ -117,15 +119,35 @@ document.addEventListener("DOMContentLoaded", () => {
           width:100%; border-radius:10px; cursor:pointer;
           transition: transform 0.3s ease;
         `;
+
         img.addEventListener("click", (e) => {
           e.stopPropagation();
           openFullscreen(subSrc);
         });
+
         overlay.appendChild(img);
       });
 
       overlay.addEventListener("click", () => overlay.remove());
       document.body.appendChild(overlay);
+    });
+  });
+
+  // ----- Mobile click-to-unblur for info boxes -----
+  const infoBoxes = document.querySelectorAll(".info-box");
+
+  infoBoxes.forEach(box => {
+    box.addEventListener("click", () => {
+
+      if (window.innerWidth <= 768) {
+
+        // Close other boxes
+        infoBoxes.forEach(b => {
+          if (b !== box) b.classList.remove("active");
+        });
+
+        box.classList.toggle("active");
+      }
     });
   });
 
