@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "photo1.png": ["photo1-1.png","photo1-2.png","photo1-3.png","photo1-4.png","photo1-5.png","photo1-6.png","photo1-7.png","photo1-8.png","photo1-9.png"],
     "photo2.png": ["photo2-1.png","photo2-2.png","photo2-3.png","photo2-4.png"],
     "photo3.png": ["photo3-1.png","photo3-2.png","photo3-3.png","photo3-4.png","photo3-5.png","photo3-6.png"],
-    "photo4.png": ["photo4-1.png","photo4-2.png","photo4-3.png"],
+    "photo4.png": ["photo4-1.png","photo4-2.png","photo4-3.png","photo4-4.png"],
     "photo5.png": [],
     "photo6.png": [],
     "photo7.png": [],
@@ -152,3 +152,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
